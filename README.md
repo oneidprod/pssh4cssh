@@ -68,6 +68,15 @@ vps-all vps-amd vps-arm
 
 Then `pssh-c vps-all` will expand to all four hosts automatically.
 
+## Real-world example
+
+[logrotate-wallets](https://github.com/oneidprod/logrotate-wallets) uses pssh4cssh to deploy a logrotate config to a fleet of VPS servers in one shot:
+
+```bash
+pscp-c vps-all wallet-debug-logrotate.conf /home/ubuntu/
+pssh-c vps-all "sudo mv ~/wallet-debug-logrotate.conf /etc/logrotate.d/wallet-debug && sudo chown root:root /etc/logrotate.d/wallet-debug && sudo chmod 644 /etc/logrotate.d/wallet-debug"
+```
+
 ## Donate
 
 If you find this useful, tips are appreciated:
