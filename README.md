@@ -113,3 +113,6 @@ By default pssh4cssh reads `~/.clusterssh/clusters`. Override with:
 ```bash
 export CSSH_CLUSTERS=/path/to/your/clusters
 ```
+
+## License
+MIT © oneidprod
