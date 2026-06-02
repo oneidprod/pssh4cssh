@@ -11,8 +11,9 @@ while IFS= read -r h; do hosts+=(-H "$h"); done < <(_cluster_hosts "$GROUP")
 
 parse_and_sort() {
   local pattern=$1
+  local fs_width=$2
   parallel-ssh "${hosts[@]}" -i "df -h | grep -E '$pattern'" 2>/dev/null | \
-  awk '
+  awk -v fw="$fs_width" '
     /\[SUCCESS\]/ { host=$NF; next }
     /\[FAILURE\]/ { host=$NF" (FAILED)"; next }
     NF >= 5 {
@@ -24,21 +25,18 @@ parse_and_sort() {
       else if (unit == "M") bytes = val * 1024^2
       else if (unit == "K") bytes = val * 1024
       else                  bytes = val
-      printf "%015.0f %-30s %-12s %-8s %-8s %-8s %s\n", bytes, host, $1, $2, $3, $4, $5
+      printf "%015.0f %-30s %-*s %-8s %-8s %-8s %s\n", bytes, host, fw, $1, $2, $3, $4, $5
     }
-  ' | sort -rn | awk '{ $1=""; printf "%-30s %-12s %-8s %-8s %-8s %s\n", $2, $3, $4, $5, $6, $7 }'
+  ' | sort -rn | awk -v fw="$fs_width" '{ $1=""; printf "%-30s %-*s %-8s %-8s %-8s %s\n", $2, fw, $3, $4, $5, $6, $7 }'
 }
 
-HEADER="%-30s %-12s %-8s %-8s %-8s %s\n"
-SEP="----------------------------------------------------------------------------------------------"
-
 echo "=== /dev/sda1 ==="
-printf "$HEADER" "HOST" "FILESYSTEM" "SIZE" "USED" "FREE" "USE%"
-echo "$SEP"
-parse_and_sort '^/dev/sda1 '
+printf "%-30s %-12s %-8s %-8s %-8s %s\n" "HOST" "FILESYSTEM" "SIZE" "USED" "FREE" "USE%"
+echo "----------------------------------------------------------------------------------------------"
+parse_and_sort '^/dev/sda1 ' 12
 
 echo ""
 echo "=== NFS Mounts ==="
-printf "$HEADER" "HOST" "FILESYSTEM" "SIZE" "USED" "FREE" "USE%"
-echo "$SEP"
-parse_and_sort 'nfs'
+printf "%-30s %-40s %-8s %-8s %-8s %s\n" "HOST" "FILESYSTEM" "SIZE" "USED" "FREE" "USE%"
+echo "-------------------------------------------------------------------------------------------------------------"
+parse_and_sort 'nfs' 40
