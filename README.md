@@ -11,13 +11,13 @@ sudo apt install pssh clusterssh
 ## Install
 
 ```bash
-git clone https://github.com/oneidprod/pssh4cssh.git ~/Documents/pssh4cssh
+git clone https://github.com/oneidprod/pssh4cssh.git /path/to/pssh4cssh
 ```
 
-Add to your `~/.bashrc`:
+Add to your `~/.bashrc` (use the path where you cloned it):
 
 ```bash
-source ~/Documents/pssh4cssh/pssh4cssh.sh
+source /path/to/pssh4cssh/pssh4cssh.sh
 ```
 
 Then reload (or open a new terminal):
@@ -67,6 +67,18 @@ vps-all vps-amd vps-arm
 ```
 
 Then `pssh-c vps-all` will expand to all four hosts automatically.
+
+## Donate
+
+If you find this useful, tips are appreciated:
+
+| Coin | Address |
+|-|-|
+| LTC | `LWpuHQUGw3qZg8MCHYGgTPRZ3a1i8jc5u3` |
+| BTC | `bc1qw0t40dunylgtz9kgfylwxac3a8vwp70cgrga5r` |
+| SOL | `up9YvW6ewNati5fmmDjGHzFbq8UkSbHPccoDNzijk3G` |
+| POL | `0x5198f52fA768294ae66f0cB75A98DCc895a36F2E` |
+| DOGE | `DJAg2fTzS5vN3yXDPn5gGPz9JSmzJn3cXD` |
 
 ## Custom clusters file
 
