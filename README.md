@@ -89,6 +89,23 @@ If you find this useful, tips are appreciated:
 | POL | `0x5198f52fA768294ae66f0cB75A98DCc895a36F2E` |
 | DOGE | `DJAg2fTzS5vN3yXDPn5gGPz9JSmzJn3cXD` |
 
+## Clusters file format
+
+Each line is a group name followed by its members separated by spaces. Members can be hostnames, `user@host` addresses, or other group names for nesting:
+
+```
+# Simple group
+vps-amd ubuntu@10.0.0.1 ubuntu@10.0.0.2 ubuntu@10.0.0.3
+
+# Another group
+vps-arm ubuntu@10.0.1.1 ubuntu@10.0.1.2 ubuntu@10.0.1.3
+
+# Nested group -- expands vps-amd and vps-arm automatically
+vps-all vps-amd vps-arm
+```
+
+Lines starting with `#` are comments and are ignored. You don't need ClusterSSH installed -- just create `~/.clusterssh/clusters` with your groups.
+
 ## Custom clusters file
 
 By default pssh4cssh reads `~/.clusterssh/clusters`. Override with:
