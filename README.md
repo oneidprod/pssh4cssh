@@ -68,6 +68,35 @@ vps-all vps-amd vps-arm
 
 Then `pssh-c vps-all` will expand to all four hosts automatically.
 
+## Included scripts
+
+### df-summary
+
+Shows disk usage for `/dev/sda1` and NFS mounts across a cluster, sorted by free space.
+
+```bash
+# All servers
+./df-summary
+
+# Specific group
+./df-summary vps-arm
+```
+
+Output is split into two sections:
+
+```
+=== /dev/sda1 ===
+HOST                           FILESYSTEM   SIZE     USED     FREE     USE%
+----------------------------------------------------------------------------------------------
+ubuntu@10.0.0.1                /dev/sda1    45G      28G      18G      61%
+ubuntu@10.0.0.2                /dev/sda1    45G      42G      3.4G     93%
+
+=== NFS Mounts ===
+HOST                           FILESYSTEM   SIZE     USED     FREE     USE%
+----------------------------------------------------------------------------------------------
+ubuntu@10.0.0.3                10.0.0.1:/var/nfs/shared 45G   35G      11G      77%
+```
+
 ## Real-world example
 
 [logrotate-wallets](https://github.com/oneidprod/logrotate-wallets) uses pssh4cssh to deploy a logrotate config to a fleet of VPS servers in one shot:
